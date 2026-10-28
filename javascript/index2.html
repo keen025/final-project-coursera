@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Interactive Photo Gallery</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #222;
+        }
+
+        h1, p {
+            text-align: center;
+        }
+
+        #image {
+            width: 90%;
+            max-width: 700px;
+            height: 350px;
+            margin: 25px auto;
+            border: 3px solid #333;
+            border-radius: 8px;
+            background-color: #555;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-size: 22px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        figure {
+            margin: 0;
+            padding: 10px;
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+        }
+
+        figure img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        figcaption {
+            padding: 10px 0 0;
+            text-align: center;
+        }
+
+        figure:focus {
+            outline: 4px solid #005fcc;
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 650px) {
+            .gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            #image {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Interactive Photo Gallery</h1>
+
+    <p>
+        Hover over or use the Tab key to focus on an image.
+    </p>
+
+    <div id="image" role="status" aria-live="polite">
+        Hover over an image below to display here.
+    </div>
+
+    <div class="gallery">
+
+        <figure onmouseover="upDate(this)"
+                onmouseleave="undo()"
+                onfocus="upDate(this)"
+                onblur="undo()">
+            <img
+                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&amp;fit=crop&amp;w=700"
+                alt="A beautiful landscape with mountains and an open sky">
+            <figcaption>Beautiful Landscape</figcaption>
+        </figure>
+
+        <figure onmouseover="upDate(this)"
+                onmouseleave="undo()"
+                onfocus="upDate(this)"
+                onblur="undo()">
+            <img
+                src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&amp;fit=crop&amp;w=700"
+                alt="Sunrise illuminating a green field and distant hills">
+            <figcaption>Sunrise</figcaption>
+        </figure>
+
+        <figure onmouseover="upDate(this)"
+                onmouseleave="undo()"
+                onfocus="upDate(this)"
+                onblur="undo()">
+            <img
+                src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&amp;fit=crop&amp;w=700"
+                alt="A peaceful mountain lake surrounded by forests">
+            <figcaption>Mountain Lake</figcaption>
+        </figure>
+
+        <figure onmouseover="upDate(this)"
+                onmouseleave="undo()"
+                onfocus="upDate(this)"
+                onblur="undo()">
+            <img
+                src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&amp;fit=crop&amp;w=700"
+                alt="A scenic lake reflecting the surrounding mountains">
+            <figcaption>Scenic Lake</figcaption>
+        </figure>
+
+        <figure onmouseover="upDate(this)"
+                onmouseleave="undo()"
+                onfocus="upDate(this)"
+                onblur="undo()">
+            <img
+                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&amp;fit=crop&amp;w=700"
+                alt="Sunlight filtering through a lush green forest">
+            <figcaption>Green Forest</figcaption>
+        </figure>
+
+        <figure onmouseover="upDate(this)"
+                onmouseleave="undo()"
+                onfocus="upDate(this)"
+                onblur="undo()">
+            <img
+                src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&amp;fit=crop&amp;w=700"
+                alt="A wide natural landscape with mountains beneath the sky">
+            <figcaption>Nature</figcaption>
+        </figure>
+
+    </div>
+
+    <script>
+        function upDate(previewPic) {
+            console.log("upDate function triggered");
+
+            var img = previewPic.querySelector("img");
+
+            console.log("Alt:", img.alt);
+            console.log("Source:", img.src);
+
+            document.getElementById("image").textContent = img.alt;
+
+            document.getElementById("image").style.backgroundImage =
+                "url('" + img.src + "')";
+        }
+
+        function undo() {
+            console.log("undo function triggered");
+
+            document.getElementById("image").style.backgroundImage =
+                "url('')";
+
+            document.getElementById("image").textContent =
+                "Hover over an image below to display here.";
+        }
+
+        function addTabindex() {
+            console.log("Page loaded: adding tabindex to figures");
+
+            var figures = document.querySelectorAll(".gallery figure");
+
+            for (var i = 0; i < figures.length; i++) {
+                figures[i].setAttribute("tabindex", "0");
+            }
+
+            console.log("Tabindex added to", figures.length, "figures");
+        }
+
+        window.addEventListener("load", addTabindex);
+    </script>
+
+</body>
+</html>
